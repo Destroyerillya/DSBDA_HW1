@@ -3,6 +3,7 @@ import bdtc.lab1.HW1Mapper;
 import bdtc.lab1.HW1Reducer;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
@@ -18,12 +19,13 @@ import java.util.List;
 public class MapReduceTest {
 
     private MapDriver<LongWritable, Text, Text, IntWritable> mapDriver;
-    private ReduceDriver<Text, IntWritable, Text, IntWritable> reduceDriver;
-    private MapReduceDriver<LongWritable, Text, Text, IntWritable, Text, IntWritable> mapReduceDriver;
+    private ReduceDriver<Text, IntWritable, Text, MapWritable> reduceDriver;
+    private MapReduceDriver<LongWritable, Text, Text, IntWritable, Text, MapWritable> mapReduceDriver;
 
-    private final String testIP = "2021-03-05 13:54:15,1";
+    private final String testreducer = "2021-03-05 13";
+    private final String testmapper = "2021-03-05 13:05:30,1";
 
-    /*@Before
+   @Before
     public void setUp() {
         HW1Mapper mapper = new HW1Mapper();
         HW1Reducer reducer = new HW1Reducer();
@@ -35,8 +37,8 @@ public class MapReduceTest {
     @Test
     public void testMapper() throws IOException {
         mapDriver
-                .withInput(new LongWritable(), new Text(testIP))
-                .withOutput(new Text(userAgent.getBrowser().getName()), new IntWritable(1))
+                .withInput(new LongWritable(), new Text(testmapper))
+                .withOutput(new Text(testreducer), new IntWritable(1))
                 .runTest();
     }
 
@@ -45,18 +47,23 @@ public class MapReduceTest {
         List<IntWritable> values = new ArrayList<IntWritable>();
         values.add(new IntWritable(1));
         values.add(new IntWritable(1));
+        values.add(new IntWritable(2));
+        MapWritable result = new MapWritable();
+        result.put(new Text("alert"), new IntWritable(2));
+        result.put(new Text("crit"), new IntWritable(1));
         reduceDriver
-                .withInput(new Text(testIP), values)
-                .withOutput(new Text(testIP), new IntWritable(2))
+                .withInput(new Text(testreducer), values)
+                .withOutput(new Text(testreducer), result)
                 .runTest();
     }
 
     @Test
     public void testMapReduce() throws IOException {
+        MapWritable result = new MapWritable();
+        result.put(new Text("alert"), new IntWritable(1));
         mapReduceDriver
-                .withInput(new LongWritable(), new Text(testIP))
-                .withInput(new LongWritable(), new Text(testIP))
-                .withOutput(new Text(userAgent.getBrowser().getName()), new IntWritable(2))
+                .withInput(new LongWritable(), new Text(testmapper))
+                .withOutput(new Text(testreducer), result)
                 .runTest();
-    }*/
+    }
 }
