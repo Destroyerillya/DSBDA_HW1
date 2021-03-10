@@ -4,6 +4,8 @@ from datetime import datetime
 import random
 import re
 
+"""Генератор данных, вводим 2 даты, начало-конец диапазона, и скрипт генерирует
+коды ошибко в промежутке от 1 даты до 2 даты, размещая каждый новый день в 1 новый файл по 300к строк"""
 
 def random_date(start, end):
     delta = end - start

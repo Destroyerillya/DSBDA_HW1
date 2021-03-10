@@ -8,7 +8,7 @@ import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 /**
- * Редьюсер: суммирует все единицы полученные от {@link HW1Mapper}, выдаёт суммарное количество пользователей по браузерам
+ * Редьюсер: считает количество ошибок определённого типа за час.
  */
 public class HW1Reducer extends Reducer<Text, IntWritable, Text, MapWritable> {
     private static Text keyWritable = new Text();

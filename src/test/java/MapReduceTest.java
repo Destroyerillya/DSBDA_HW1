@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*test for map reduce*/
 public class MapReduceTest {
 
     private MapDriver<LongWritable, Text, Text, IntWritable> mapDriver;
@@ -33,7 +33,7 @@ public class MapReduceTest {
         reduceDriver = ReduceDriver.newReduceDriver(reducer);
         mapReduceDriver = MapReduceDriver.newMapReduceDriver(mapper, reducer);
     }
-
+    /* test mapper*/
     @Test
     public void testMapper() throws IOException {
         mapDriver
@@ -41,7 +41,7 @@ public class MapReduceTest {
                 .withOutput(new Text(testreducer), new IntWritable(1))
                 .runTest();
     }
-
+    /*test reducer*/
     @Test
     public void testReducer() throws IOException {
         List<IntWritable> values = new ArrayList<IntWritable>();
@@ -56,7 +56,7 @@ public class MapReduceTest {
                 .withOutput(new Text(testreducer), result)
                 .runTest();
     }
-
+    /*test mapreduce*/
     @Test
     public void testMapReduce() throws IOException {
         MapWritable result = new MapWritable();

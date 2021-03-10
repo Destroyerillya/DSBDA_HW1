@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-
+/*Mapper: составляет ключ(время округлённое до часу), значение (номер ошибки в формате int)*/
 public class HW1Mapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
     private final static IntWritable one = new IntWritable(1);
@@ -22,9 +22,7 @@ public class HW1Mapper extends Mapper<LongWritable, Text, Text, IntWritable> {
         String line = value.toString();
         if (Pattern.matches("^20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1]) (0[0-9]|1[0-9]|2[0-3])(:(0[0-9]|[1-5][0-9])){2},[0-7]$",line)) {
             String[] ml = line.split(":|,");
-            if (ml[0].isEmpty() || ml[ml.length - 1].isEmpty()) {
-                context.getCounter(CounterType.MALFORMED).increment(1);
-            } else {
+            if (!ml[0].isEmpty() && !ml[ml.length - 1].isEmpty()){
                 word.set(ml[0]);
                 one.set(Integer.parseInt(ml[ml.length - 1]));
                 context.write(word, one);
